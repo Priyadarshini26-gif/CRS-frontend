@@ -36,6 +36,15 @@ const createCategoryMarker = (color) => {
   });
 };
 
+// Create dark red marker icon for location
+const createLocationMarker = () => {
+  return L.divIcon({
+    html: `<div style="background-color: #8B0000; border: 2px solid white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>`,
+    iconSize: [30, 30],
+    className: 'location-marker'
+  });
+};
+
 const LocationMarker = ({ onLocationSelect }) => {
   const [position, setPosition] = useState(null);
   const mapEvents = useMap();
@@ -167,40 +176,8 @@ const Map = ({ onLocationSelect, initialLocation = null, readOnly = false }) => 
     onLocationSelect(coords);
   };
 
-  const categoryLegend = [
-    { category: 'electricity', label: 'Electricity', color: '#FFD700' },
-    { category: 'road', label: 'Road', color: '#FF6347' },
-    { category: 'garbage', label: 'Garbage', color: '#8B4513' },
-    { category: 'water', label: 'Water', color: '#4169E1' },
-    { category: 'sidewalk', label: 'Sidewalk', color: '#FF8C00' },
-    { category: 'tree', label: 'Tree', color: '#228B22' },
-    { category: 'traffic', label: 'Traffic', color: '#FF1493' },
-    { category: 'other', label: 'Other', color: '#808080' }
-  ];
-
   return (
     <div className="w-full">
-      {/* Legend */}
-      {readOnly && (
-        <div className="bg-white border border-gray-300 rounded-lg p-4 mb-3 shadow-md">
-          <h3 className="font-semibold text-gray-900 mb-3 text-sm">Issue Category Legend</h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            {categoryLegend.map(item => (
-              <div key={item.category} className="flex items-center gap-2">
-                <div
-                  className="w-5 h-5 rounded-full border-2 border-white flex-shrink-0"
-                  style={{
-                    backgroundColor: item.color,
-                    boxShadow: '0 2px 4px rgba(0,0,0,0.3)'
-                  }}
-                ></div>
-                <span className="text-xs text-gray-700">{item.label}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      )}
-
       <div className="w-full h-96 rounded-lg overflow-hidden border border-gray-300">
         <MapContainer
           center={position}
@@ -215,7 +192,7 @@ const Map = ({ onLocationSelect, initialLocation = null, readOnly = false }) => 
         {!readOnly && <LocationMarker onLocationSelect={handleLocationSelect} />}
         {readOnly && !initialLocation && <IssueMarkers />}
         {initialLocation && readOnly && (
-          <Marker position={[initialLocation[1], initialLocation[0]]}>
+          <Marker position={[initialLocation[1], initialLocation[0]]} icon={createLocationMarker()}>
             <Popup>Issue Location</Popup>
           </Marker>
         )}
