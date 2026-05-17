@@ -180,8 +180,40 @@ const Map = ({ onLocationSelect, initialLocation = null, readOnly = false }) => 
     onLocationSelect(coords);
   };
 
+  const categoryLegend = [
+    { category: 'electricity', label: 'Electricity', color: '#FFD700' },
+    { category: 'road', label: 'Road', color: '#FF6347' },
+    { category: 'garbage', label: 'Garbage', color: '#8B4513' },
+    { category: 'water', label: 'Water', color: '#4169E1' },
+    { category: 'sidewalk', label: 'Sidewalk', color: '#FF8C00' },
+    { category: 'tree', label: 'Tree', color: '#228B22' },
+    { category: 'traffic', label: 'Traffic', color: '#FF1493' },
+    { category: 'other', label: 'Other', color: '#808080' }
+  ];
+
   return (
     <div className="w-full">
+      {/* Legend - Only show in map view (readOnly + no initialLocation) */}
+      {readOnly && !initialLocation && (
+        <div className="bg-white border border-gray-300 rounded-lg p-4 mb-3 shadow-md">
+          <h3 className="font-semibold text-gray-900 mb-3 text-sm">Issue Category Legend</h3>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+            {categoryLegend.map(item => (
+              <div key={item.category} className="flex items-center gap-2">
+                <div
+                  className="w-5 h-5 rounded-full border-2 border-white flex-shrink-0"
+                  style={{
+                    backgroundColor: item.color,
+                    boxShadow: '0 2px 4px rgba(0,0,0,0.3)'
+                  }}
+                ></div>
+                <span className="text-xs text-gray-700">{item.label}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
       <div className="w-full h-96 rounded-lg overflow-hidden border border-gray-300">
         <MapContainer
           center={position}
