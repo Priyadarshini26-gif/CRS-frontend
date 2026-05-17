@@ -36,11 +36,15 @@ const createCategoryMarker = (color) => {
   });
 };
 
-// Create dark red marker icon for location
+// Create dark red marker icon for location (pin shape)
 const createLocationMarker = () => {
   return L.divIcon({
-    html: `<div style="background-color: #8B0000; border: 2px solid white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 4px rgba(0,0,0,0.3);"></div>`,
-    iconSize: [30, 30],
+    html: `<svg width="32" height="41" viewBox="0 0 32 41" xmlns="http://www.w3.org/2000/svg">
+      <path d="M16 0C7.163 0 0 7.163 0 16c0 9 16 25 16 25s16-16 16-25c0-8.837-7.163-16-16-16z" fill="#8B0000"/>
+      <circle cx="16" cy="16" r="6" fill="white"/>
+    </svg>`,
+    iconSize: [32, 41],
+    iconAnchor: [16, 41],
     className: 'location-marker'
   });
 };
